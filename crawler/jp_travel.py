@@ -21,7 +21,7 @@ def my_get(url):
     return resp.text
 addr = 'https://www.ptt.cc'
 count = 0
-pat = '時間([a-zA-Z]{3}.[a-zA-Z]{3}..{1,2} \d{2}:\d{2}:\d{2} \d{4})'
+pat = '([a-zA-Z]{3}.[a-zA-Z]{3}..{1,2} \d{2}:\d{2}:\d{2} \d{4})'
 for page in range(1,2):
     url = 'https://www.ptt.cc/bbs/Japan_Travel/index'+str(page)+'.html'
     resp = requests.get(url,headers={'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1'})
@@ -57,6 +57,7 @@ for page in range(1,2):
                 date = ''
             my_dict['article_date'] = date
             print('page {},item {}'.format(str(page),str(i+1)))
+            print(date)
             file.write(json.dumps(my_dict,ensure_ascii=False))
             file.write('\n')
     print('we sleep 3 seconds,and then we move to next step.')
