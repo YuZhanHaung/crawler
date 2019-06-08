@@ -18,7 +18,10 @@ def my_get(url):
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1'})
     time.sleep(3)
     print('Sataus Code: ',resp.status_code)
-    return resp.text
+    if resp.status_code == 200:
+        return resp.text
+    else:
+        return None
 addr = 'https://www.ptt.cc'
 count = 0
 pat = '([a-zA-Z]{3}.[a-zA-Z]{3}..{1,2} \d{2}:\d{2}:\d{2} \d{4})'
@@ -42,7 +45,7 @@ for page in range(1,2):
     # print('title',len(element_title))
     #獲取內容
     resp_cnt = [my_get(u) for u in full_url]
-    element_content = [etree.HTML(u).xpath("//div[starts-with(@class,'bbs-screen')]")[0].xpath('string(.)') for u in resp_cnt]
+    element_content = [etree.HTML(u).xpath("//div[starts-with(@class,'bbs-screen')]")[0].xpath('string(.)') for u in resp_cnt if u]
     # 每頁的20文章內容寫入，完成後才會進行下一頁
     with open('./dataset/ptt', 'a', encoding='utf-8')as file:
         for i in range(0,len(element_content)):
